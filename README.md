@@ -1,6 +1,6 @@
 # Hábitos
 
-Aplicación web para registrar y seguir hábitos diarios.
+Aplicación móvil para registrar los hábitos de cada día, centrada en los recordatorios.
 
 Proyecto de aprendizaje: se desarrolla con Claude Code e irá incorporando agentes, skills y servidores MCP solo cuando aporten valor real.
 
