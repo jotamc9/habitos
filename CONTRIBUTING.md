@@ -1,0 +1,154 @@
+# Guía de contribución
+
+Metodología de trabajo con git para este proyecto. Aunque es una aplicación de uso personal, se sigue un flujo profesional: cada cambio pasa por una rama y un Pull Request antes de llegar a producción.
+
+## 1. Modelo de ramas
+
+Usamos **GitHub Flow**: una única rama permanente (`main`) y ramas cortas para cada cambio.
+
+| Rama | Propósito | Vida |
+|------|-----------|------|
+| `main` | Código en producción. Siempre estable y desplegable. | Permanente |
+| `<tipo>/<descripcion>` | Un cambio concreto (funcionalidad, corrección, refactor…). | Horas o pocos días |
+
+### Reglas
+
+- **Nunca se hace commit directamente en `main`.** Todo entra mediante Pull Request.
+- Cada rama sale de `main` actualizada y vuelve a `main`.
+- Una rama = un objetivo. Si aparece otro cambio no relacionado, va en otra rama.
+- Las ramas se borran después del merge.
+
+### ¿Por qué no Git Flow (`develop`, `release/*`, `hotfix/*`)?
+
+Git Flow está pensado para equipos con versiones planificadas y varias versiones en mantenimiento a la vez. En un proyecto con un único desarrollador y despliegue continuo añade ceremonia sin aportar nada. Con GitHub Flow, `main` cumple el papel de "producción" y las versiones se marcan con tags (ver sección 5).
+
+## 2. Nomenclatura de ramas
+
+```
+<tipo>/<descripcion-corta>
+```
+
+- `tipo`: uno de los tipos de commit de la sección 3.
+- `descripcion-corta`: en minúsculas, palabras separadas por guiones, sin tildes ni ñ.
+
+Ejemplos:
+
+```
+feat/crear-habito
+fix/racha-no-se-reinicia
+refactor/servicio-habitos
+docs/especificacion-funcional
+chore/configurar-eslint
+```
+
+## 3. Mensajes de commit
+
+Seguimos [Conventional Commits](https://www.conventionalcommits.org/es/v1.0.0/) en su forma simple:
+
+```
+<tipo>: <descripción>
+
+[cuerpo opcional: el porqué del cambio]
+```
+
+### Tipos
+
+| Tipo | Cuándo usarlo |
+|------|---------------|
+| `feat` | Nueva funcionalidad visible para el usuario. |
+| `fix` | Corrección de un error. |
+| `refactor` | Cambio de código que no añade funcionalidad ni corrige errores. |
+| `docs` | Solo documentación. |
+| `test` | Añadir o corregir tests. |
+| `style` | Formato, espacios, punto y coma… (sin cambios de lógica). |
+| `chore` | Mantenimiento: dependencias, configuración, scripts. |
+| `ci` | Pipelines y automatizaciones de CI/CD. |
+
+Si dudas entre dos tipos, elige el que mejor describa el **efecto** del cambio para quien use la aplicación.
+
+### Reglas del mensaje
+
+- Descripción en **español**, en **imperativo** y en minúscula: "añade", "corrige", "elimina" (no "añadido" ni "añadiendo").
+- Sin punto final y con un máximo de unos 72 caracteres.
+- El cuerpo es opcional: úsalo para explicar el **porqué**, no el qué (el qué ya lo cuenta el diff).
+- Un cambio que rompe compatibilidad (por ejemplo, de datos guardados) lleva `!` tras el tipo: `feat!: cambia el formato de exportación`.
+
+Ejemplos:
+
+```
+feat: permite marcar un hábito como completado
+fix: reinicia la racha al saltarse un día
+refactor: extrae el cálculo de rachas a un servicio
+docs: añade la especificación funcional
+chore: actualiza dependencias
+```
+
+## 4. Flujo de trabajo paso a paso
+
+```bash
+# 1. Partir de main actualizada
+git switch main
+git pull
+
+# 2. Crear la rama
+git switch -c feat/crear-habito
+
+# 3. Trabajar con commits pequeños y descriptivos
+git add .
+git commit -m "feat: añade formulario de creación de hábitos"
+
+# 4. Subir la rama
+git push -u origin feat/crear-habito
+
+# 5. Abrir el Pull Request hacia main
+gh pr create --fill
+
+# 6. Revisar el PR, esperar a que pase la CI y hacer merge (squash)
+gh pr merge --squash --delete-branch
+
+# 7. Volver a main
+git switch main
+git pull
+```
+
+### Pull Requests
+
+- El **título del PR** sigue el mismo formato que un commit (`feat: …`, `fix: …`), porque se convierte en el commit final en `main`.
+- La descripción usa la plantilla de `.github/pull_request_template.md`.
+- Aunque no haya otra persona revisando, el PR se revisa antes del merge: leer el diff completo, comprobar los tests y verificar el cambio en local.
+
+### Estrategia de merge: squash
+
+Todos los PR se integran con **squash merge**: los commits de la rama se combinan en un único commit en `main`. Así:
+
+- En la rama puedes hacer commits intermedios sin preocuparte demasiado.
+- `main` tiene un historial limpio: un commit por cambio, con un mensaje convencional.
+
+## 5. Versiones y releases
+
+Las versiones se marcan con tags de [versionado semántico](https://semver.org/lang/es/) sobre `main`: `vMAYOR.MENOR.PARCHE`.
+
+| Parte | Se incrementa cuando… | Relación con los commits |
+|-------|-----------------------|--------------------------|
+| MAYOR | Hay cambios incompatibles. | `feat!`, `fix!` |
+| MENOR | Hay funcionalidad nueva compatible. | `feat` |
+| PARCHE | Solo hay correcciones. | `fix` |
+
+Mientras la aplicación no tenga una primera versión estable, usamos `0.x.y`.
+
+```bash
+git switch main
+git pull
+git tag -a v0.1.0 -m "v0.1.0: primera versión del MVP"
+git push origin v0.1.0
+gh release create v0.1.0 --generate-notes
+```
+
+## 6. Protección de `main` en GitHub
+
+Para que la regla "nunca commit directo en `main`" no dependa solo de la disciplina, se configura en GitHub (Settings → Branches/Rules):
+
+- Exigir Pull Request para hacer merge en `main`.
+- Exigir que pasen los checks de CI (cuando exista CI).
+- Bloquear force push y borrado de `main`.
+- Permitir solo squash merge y borrar ramas automáticamente tras el merge (Settings → General).
