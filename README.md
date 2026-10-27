@@ -6,7 +6,13 @@ Proyecto de aprendizaje: se desarrolla con Claude Code e irá incorporando agent
 
 ## Estado
 
-Fase 1: definición funcional (ver [`docs/especificacion-funcional.md`](docs/especificacion-funcional.md)).
+Fase 2: arquitectura. Todavía no hay código.
+
+## Documentación
+
+- [Especificación funcional](docs/especificacion-funcional.md): qué hace la aplicación.
+- [Arquitectura](docs/arquitectura.md): cómo se construye.
+- [Decisiones de arquitectura (ADR)](docs/adr/): por qué se construye así.
 
 ## Cómo se trabaja
 
