@@ -1,6 +1,6 @@
 # ADR-0005: Recordatorios locales en ventana deslizante
 
-- **Estado:** Propuesto
+- **Estado:** Aceptado
 - **Fecha:** 2026-10-28
 
 ## Contexto
@@ -27,7 +27,7 @@
 
 ## Decisión
 
-Se propone **programar notificaciones locales con fecha concreta en una ventana deslizante** de como máximo 60 avisos, ordenados por cercanía.
+Se elige **programar notificaciones locales con fecha concreta en una ventana deslizante** de como máximo 60 avisos, ordenados por cercanía.
 
 La ventana se recalcula:
 - Al abrir la app y al volver a primer plano.

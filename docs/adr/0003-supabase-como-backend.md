@@ -1,6 +1,6 @@
 # ADR-0003: Supabase como backend y autenticación
 
-- **Estado:** Propuesto
+- **Estado:** Aceptado
 - **Fecha:** 2026-10-28
 
 ## Contexto
@@ -30,7 +30,7 @@
 
 ## Decisión
 
-Se propone **Supabase**: Postgres para los datos y Supabase Auth con Sign in with Apple y Google nativos (el token obtenido en el dispositivo se envía a Supabase con `signInWithIdToken`).
+Se elige **Supabase**: Postgres para los datos y Supabase Auth con Sign in with Apple y Google nativos (el token obtenido en el dispositivo se envía a Supabase con `signInWithIdToken`).
 
 ## Consecuencias
 

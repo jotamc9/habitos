@@ -1,6 +1,6 @@
 # ADR-0006: Configuración de hábitos con fecha de vigencia
 
-- **Estado:** Propuesto
+- **Estado:** Aceptado
 - **Fecha:** 2026-10-28
 
 ## Contexto
@@ -26,7 +26,7 @@
 
 ## Decisión
 
-Se propone separar el hábito (identidad, nombre, tipo, fechas de creación y archivo) de sus **versiones de configuración** (días, meta, unidad, incremento), cada una con su fecha `vigente_desde`.
+Se separa el hábito (identidad, nombre, tipo, fechas de creación y archivo) de sus **versiones de configuración** (días, meta, unidad, incremento), cada una con su fecha `vigente_desde`.
 
 - Al crear un hábito se crea su primera versión, vigente desde el día de creación.
 - Al editar la configuración se crea una versión nueva, vigente desde hoy. Si ya existe una versión de hoy, se actualiza en lugar de crear otra.

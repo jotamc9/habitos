@@ -6,10 +6,10 @@ Cada ADR documenta una decisión técnica importante: el contexto, las opciones 
 |-----|----------|--------|
 | [0001](0001-registrar-decisiones-con-adr.md) | Registrar las decisiones de arquitectura con ADR | Aceptado |
 | [0002](0002-expo-como-plataforma.md) | Expo (React Native + TypeScript) como plataforma | Aceptado |
-| [0003](0003-supabase-como-backend.md) | Supabase como backend y autenticación | Propuesto |
-| [0004](0004-offline-first-con-sincronizacion.md) | Offline-first: SQLite local y sincronización propia | Propuesto |
-| [0005](0005-recordatorios-locales-en-ventana-deslizante.md) | Recordatorios locales en ventana deslizante | Propuesto |
-| [0006](0006-configuracion-de-habitos-con-vigencia.md) | Configuración de hábitos con fecha de vigencia | Propuesto |
+| [0003](0003-supabase-como-backend.md) | Supabase como backend y autenticación | Aceptado |
+| [0004](0004-offline-first-con-sincronizacion.md) | Offline-first: SQLite local y sincronización propia | Aceptado |
+| [0005](0005-recordatorios-locales-en-ventana-deslizante.md) | Recordatorios locales en ventana deslizante | Aceptado |
+| [0006](0006-configuracion-de-habitos-con-vigencia.md) | Configuración de hábitos con fecha de vigencia | Aceptado |
 
 ## Plantilla
 

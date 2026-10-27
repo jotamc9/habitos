@@ -1,6 +1,6 @@
 # ADR-0004: Offline-first con SQLite local y sincronización propia
 
-- **Estado:** Propuesto
+- **Estado:** Aceptado
 - **Fecha:** 2026-10-28
 
 ## Contexto
@@ -28,7 +28,7 @@
 
 ## Decisión
 
-Se propone **SQLite (`expo-sqlite`) como fuente de verdad en el dispositivo y una sincronización propia con Supabase**:
+Se elige **SQLite (`expo-sqlite`) como fuente de verdad en el dispositivo y una sincronización propia con Supabase**:
 
 - Identificadores UUID generados en el dispositivo, para crear datos sin conexión.
 - `actualizado_en` asignado por el servidor, para no depender del reloj del dispositivo.
