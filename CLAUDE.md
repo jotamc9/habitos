@@ -6,6 +6,12 @@ Instrucciones para Claude Code en este repositorio.
 
 Aplicación móvil para registrar hábitos diarios, centrada en los recordatorios. Proyecto personal desarrollado con prácticas profesionales. La especificación funcional está en `docs/especificacion-funcional.md`.
 
+## Arquitectura
+
+- La arquitectura está en `docs/arquitectura.md` y las decisiones en `docs/adr/`. Respeta los ADR aceptados; si un cambio contradice uno, avisa al usuario antes de seguir.
+- Toda decisión técnica importante nueva lleva su ADR en el mismo Pull Request.
+- `docs/especificacion-funcional.md` no menciona tecnologías: lo técnico va en la documentación de arquitectura.
+
 ## Git
 
 Sigue la metodología de `CONTRIBUTING.md`. En resumen:
