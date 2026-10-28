@@ -21,3 +21,9 @@ Sigue la metodología de `CONTRIBUTING.md`. En resumen:
 - Tipos permitidos: `feat`, `fix`, `refactor`, `docs`, `test`, `style`, `chore`, `ci`.
 - Los cambios llegan a `main` solo mediante Pull Request con squash merge. El título del PR sigue el mismo formato que los commits.
 - No hagas push, no abras PR y no hagas merge sin que el usuario lo pida.
+- El hook `.claude/hooks/proteger-main.mjs` bloquea commit y push en `main`. Si te bloquea, crea una rama; no intentes rodearlo.
+
+## Ecosistema de IA
+
+- Las piezas de Claude Code de este repo (permisos, hooks, skills, agentes, MCP) se describen en `docs/ecosistema-ia.md`.
+- Al añadir, cambiar o quitar una pieza, actualiza ese documento en el mismo Pull Request.

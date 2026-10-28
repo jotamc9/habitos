@@ -13,6 +13,7 @@ Fase 2: arquitectura. Todavía no hay código.
 - [Especificación funcional](docs/especificacion-funcional.md): qué hace la aplicación.
 - [Arquitectura](docs/arquitectura.md): cómo se construye.
 - [Decisiones de arquitectura (ADR)](docs/adr/): por qué se construye así.
+- [Ecosistema de IA](docs/ecosistema-ia.md): cómo está configurado Claude Code para trabajar en el proyecto.
 
 ## Cómo se trabaja
 
