@@ -35,6 +35,8 @@ Definidos en [.claude/settings.json](../.claude/settings.json):
 - **Siempre pregunta:** todo lo que sale del equipo o es difícil de deshacer (`git push`, `gh pr create`, `gh pr merge`, `git reset --hard`, `git clean`).
 - **Prohibido:** leer ficheros `.env`, que contendrán secretos.
 
+En el mismo fichero, `attribution.commit` vacío hace que los commits no lleven la línea `Co-Authored-By` de Claude. Los PR sí indican que se han generado con Claude Code.
+
 Cada persona puede añadir sus propias preferencias en `.claude/settings.local.json`, que no se versiona.
 
 ### Hook `proteger-main`
@@ -51,12 +53,25 @@ Complementa la protección de `main` en GitHub: el servidor lo impediría igualm
 
 **Requisito:** Node.js en el `PATH`.
 
+### Skill `/pr`
+
+[.claude/skills/pr/](../.claude/skills/pr/SKILL.md). Sube la rama actual y abre un Pull Request hacia `main` con título en Conventional Commits y la plantilla rellenada.
+
+- El script [contexto.mjs](../.claude/skills/pr/contexto.mjs) comprueba el estado de forma determinista: rama válida, cambios sin commit, commits nuevos, si va por detrás de `main`, si ya hay un PR y dónde está `gh`. Si encuentra un bloqueo, la skill se detiene.
+- Nunca hace merge.
+- Se invoca con `/pr` (con notas opcionales) o al pedir "abre el PR".
+
+### Skill `/adr`
+
+[.claude/skills/adr/](../.claude/skills/adr/SKILL.md). Crea un ADR en `docs/adr/` en estado `Propuesto`, actualiza el índice y, si sustituye a otro, marca el antiguo.
+
+- El script [siguiente.mjs](../.claude/skills/adr/siguiente.mjs) calcula el siguiente número, el nombre del fichero (sin tildes) y la fecha.
+- Se invoca con `/adr <título>` o cuando se toma una decisión técnica importante.
+
 ## Piezas previstas
 
 | Pieza | Cuándo |
 |-------|--------|
-| Skill `/pr`: subir la rama y abrir el Pull Request con la plantilla | Siguiente paso de la Fase 0 |
-| Skill `/adr`: crear un ADR numerado y actualizar el índice | Siguiente paso de la Fase 0 |
 | MCP de Supabase (limitado a un proyecto, solo lectura en producción) | Al crear el proyecto de Supabase |
 | Hooks de formato y lint tras cada edición | Al crear el proyecto Expo |
 | Comandos de desarrollo en `CLAUDE.md` | Al crear el proyecto Expo |
