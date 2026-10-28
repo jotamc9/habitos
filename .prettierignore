@@ -1,0 +1,8 @@
+# Prettier se aplica solo al código: la documentación en Markdown se edita a mano.
+*.md
+
+node_modules/
+.expo/
+dist/
+coverage/
+package-lock.json

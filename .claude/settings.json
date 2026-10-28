@@ -18,19 +18,26 @@
       "Bash(gh pr list *)",
       "Bash(gh pr diff *)",
       "Bash(gh pr checks *)",
-      "Bash(gh repo view *)"
+      "Bash(gh repo view *)",
+      "Bash(npm run *)",
+      "Bash(npm test *)",
+      "Bash(npx expo lint *)",
+      "Bash(npx tsc *)",
+      "Bash(npx jest *)",
+      "Bash(npx prettier *)",
+      "Bash(npx eslint *)"
     ],
     "ask": [
       "Bash(git push *)",
       "Bash(gh pr create *)",
       "Bash(gh pr merge *)",
       "Bash(git reset --hard *)",
-      "Bash(git clean *)"
+      "Bash(git clean *)",
+      "Bash(npm install *)",
+      "Bash(npm uninstall *)",
+      "Bash(npx expo install *)"
     ],
-    "deny": [
-      "Read(./.env)",
-      "Read(./.env.*)"
-    ]
+    "deny": ["Read(./.env)", "Read(./.env.*)"]
   },
   "hooks": {
     "PreToolUse": [
@@ -42,6 +49,19 @@
             "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/proteger-main.mjs\"",
             "timeout": 10,
             "statusMessage": "Comprobando que no se toca main"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/formatear.mjs\"",
+            "timeout": 60,
+            "statusMessage": "Formateando y revisando el fichero"
           }
         ]
       }

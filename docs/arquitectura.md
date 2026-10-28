@@ -67,8 +67,8 @@ Las versiones concretas se fijan al crear el proyecto y quedan registradas en `p
 ## 4. Capas y estructura del código
 
 ```
-app/              Pantallas y navegación (Expo Router)
 src/
+  app/            Pantallas y navegación (Expo Router: cada fichero es una ruta)
   domain/         Reglas de negocio puras, sin dependencias de React ni de la base de datos
   data/           Acceso a la base de datos local (esquema, migraciones, repositorios)
   sync/           Sincronización con Supabase
@@ -78,7 +78,9 @@ src/
 supabase/         Migraciones SQL y políticas de seguridad del backend
 ```
 
-Regla de dependencias: `app` y `ui` pueden usar todo; `domain` no depende de nada. Así las reglas más delicadas (qué hábitos tocan un día, cuándo está cumplido, qué recordatorios hay que programar) son funciones puras que se prueban con tests unitarios rápidos.
+Regla de dependencias: `app` y `ui` pueden usar todo; `domain` no depende de nada. Así las reglas más delicadas (qué hábitos tocan un día, cuándo está cumplido, qué recordatorios hay que programar) son funciones puras que se prueban con tests unitarios rápidos. ESLint impone esta regla en `src/domain`.
+
+Las pantallas están en `src/app/` porque es la ubicación de la plantilla de Expo; dentro solo van rutas, y los tests van fuera (en `src/__tests__/` o junto al código que prueban, fuera de `src/app/`). Los imports usan el alias `@/` → `src/`.
 
 ## 5. Modelo de datos
 
