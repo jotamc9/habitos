@@ -152,3 +152,41 @@ Para que la regla "nunca commit directo en `main`" no dependa solo de la discipl
 - Exigir que pasen los checks de CI (cuando exista CI).
 - Bloquear force push y borrado de `main`.
 - Permitir solo squash merge y borrar ramas automáticamente tras el merge (Settings → General).
+
+## 7. Dependencias y seguridad
+
+### Añadir dependencias
+
+- Usa `npx expo install <paquete>`, que elige la versión compatible con el SDK de Expo. Nunca `npm install <paquete>`.
+- Tras añadir o actualizar dependencias, ejecuta `npm run auditar`.
+
+### Scripts de instalación
+
+npm solo ejecuta los scripts de instalación (`install`, `postinstall`…) de los paquetes que se aprueban en `allowScripts` de `package.json`. Si npm avisa de un paquete con scripts pendientes:
+
+1. Lee el script en `node_modules/<paquete>/` y averigua para qué sirve.
+2. Apruébalo (`npm install-scripts approve <paquete>`) solo si hace falta para que el paquete funcione, o deniégalo (`npm install-scripts deny <paquete>`) si no.
+3. Explica la decisión en el Pull Request.
+
+Paquetes denegados:
+
+| Paquete | Script | Por qué no hace falta |
+|---------|--------|-----------------------|
+| `@parcel/watcher` | Compila desde el código fuente | Solo actúa si se pide compilar desde el código fuente; el binario precompilado llega como dependencia opcional |
+| `unrs-resolver` | Descarga el binario nativo | Solo actúa si falta el binario, que ya llega como dependencia opcional |
+
+### Avisos de seguridad
+
+`npm audit` no permite ignorar avisos concretos, así que se usa `npm run auditar` ([scripts/auditar.mjs](scripts/auditar.mjs)). El script compara los avisos con los aceptados en [scripts/auditoria-aceptada.json](scripts/auditoria-aceptada.json) y falla si:
+
+- aparece un aviso que no está aceptado,
+- un aviso aceptado ya no aparece (hay que quitarlo de la lista), o
+- se ha pasado la fecha de revisión de un aviso aceptado.
+
+Ante un aviso nuevo, por este orden:
+
+1. Actualizar la dependencia a una versión corregida, con `npx expo install --fix` si es del SDK.
+2. Si no hay versión corregida compatible, comprobar si el código vulnerable llega a la app o solo a las herramientas de desarrollo, y si se puede explotar.
+3. Solo si no se puede explotar, aceptarlo en `auditoria-aceptada.json` con el motivo y una fecha de revisión de, como mucho, tres meses. La aceptación se decide en el Pull Request.
+
+No se usa `npm audit fix --force`: cambia versiones mayores sin respetar el SDK de Expo.
