@@ -49,7 +49,12 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "verificar": "npm run format:check && npm run lint && npm run typecheck && npm test"
+    "verificar": "npm run format:check && npm run lint && npm run typecheck && npm test",
+    "auditar": "node scripts/auditar.mjs"
   },
-  "private": true
+  "private": true,
+  "allowScripts": {
+    "@parcel/watcher": false,
+    "unrs-resolver": false
+  }
 }

@@ -37,7 +37,10 @@ npm test                     # Jest (jest-expo + React Native Testing Library)
 npm run format               # Prettier sobre todo el código
 npx expo install <paquete>   # añadir dependencias (elige la versión compatible con el SDK); nunca npm install <paquete>
 npx expo-doctor              # diagnosticar dependencias y configuración
+npm run auditar              # avisos de seguridad frente a los aceptados (necesita red)
 ```
+
+- Tras añadir o actualizar dependencias, ejecuta `npm run auditar` y sigue la sección "Dependencias y seguridad" de `CONTRIBUTING.md`. Nunca aceptes un aviso de seguridad ni apruebes un script de instalación sin plantearlo antes al usuario.
 
 - Expo cambia mucho entre versiones de SDK: antes de usar una API de Expo o React Native, consulta la documentación de la versión instalada (`https://docs.expo.dev/versions/v58.0.0/`) en lugar de fiarte de la memoria.
 - Las pantallas viven en `src/app/` (Expo Router: cada fichero es una ruta). Fuera de ahí va todo lo demás, también los tests.
