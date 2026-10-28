@@ -9,7 +9,9 @@ const DIRECTORIO = "docs/adr";
 
 const titulo = process.argv.slice(2).join(" ").trim();
 if (!titulo) {
-  console.error('Falta el título. Uso: node .claude/skills/adr/siguiente.mjs "Título de la decisión"');
+  console.error(
+    'Falta el título. Uso: node .claude/skills/adr/siguiente.mjs "Título de la decisión"',
+  );
   process.exit(1);
 }
 
@@ -17,7 +19,10 @@ const numeros = readdirSync(DIRECTORIO)
   .map((f) => /^(\d{4})-.+\.md$/.exec(f)?.[1])
   .filter(Boolean)
   .map(Number);
-const numero = String((numeros.length ? Math.max(...numeros) : 0) + 1).padStart(4, "0");
+const numero = String((numeros.length ? Math.max(...numeros) : 0) + 1).padStart(
+  4,
+  "0",
+);
 
 const slug = titulo
   .normalize("NFD")

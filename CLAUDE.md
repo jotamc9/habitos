@@ -24,6 +24,27 @@ Responde siempre en español.
 
 **Resumen en cada PR.** La descripción del PR y el mensaje final al usuario resumen todo lo hecho: qué cambia y por qué, decisiones tomadas durante la implementación, cómo se ha probado y qué queda pendiente o sin verificar. El usuario no debe perder contexto de ningún cambio.
 
+## Desarrollo
+
+Proyecto Expo (SDK 58) con TypeScript estricto y npm. Comandos:
+
+```bash
+npm start                    # servidor de desarrollo (Metro)
+npm run verificar            # formato, lint, tipos y tests: ejecútalo antes de cada commit
+npm run lint                 # ESLint (eslint-config-expo)
+npm run typecheck            # tsc --noEmit
+npm test                     # Jest (jest-expo + React Native Testing Library)
+npm run format               # Prettier sobre todo el código
+npx expo install <paquete>   # añadir dependencias (elige la versión compatible con el SDK); nunca npm install <paquete>
+npx expo-doctor              # diagnosticar dependencias y configuración
+```
+
+- Expo cambia mucho entre versiones de SDK: antes de usar una API de Expo o React Native, consulta la documentación de la versión instalada (`https://docs.expo.dev/versions/v58.0.0/`) en lugar de fiarte de la memoria.
+- Las pantallas viven en `src/app/` (Expo Router: cada fichero es una ruta). Fuera de ahí va todo lo demás, también los tests.
+- Imports con el alias `@/` → `src/` (por ejemplo, `@/domain/habitos`).
+- Las carpetas `ios/` y `android/` se generan; no se crean ni se editan a mano. La configuración nativa va en `app.json`.
+- Tras cada edición, un hook formatea el fichero y pasa ESLint (ver `docs/ecosistema-ia.md`). Si te devuelve errores, corrígelos.
+
 ## Arquitectura
 
 - La arquitectura está en `docs/arquitectura.md` y las decisiones en `docs/adr/`. Respeta los ADR aceptados; si un cambio contradice uno, avisa al usuario antes de seguir.

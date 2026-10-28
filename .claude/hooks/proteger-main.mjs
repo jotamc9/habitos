@@ -76,7 +76,10 @@ for (const segmento of segmentos(comando)) {
 
   if (git.nombre === "push") {
     const sinRefspec = git.args.filter((a) => !a.startsWith("-")).length <= 1;
-    if (empujaARamaProtegida(git.args) || (sinRefspec && ramaActual(cwd) === RAMA_PROTEGIDA)) {
+    if (
+      empujaARamaProtegida(git.args) ||
+      (sinRefspec && ramaActual(cwd) === RAMA_PROTEGIDA)
+    ) {
       bloquear(`Bloqueado: no se hace push directamente a ${RAMA_PROTEGIDA}.`);
     }
   }

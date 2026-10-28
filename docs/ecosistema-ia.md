@@ -25,14 +25,14 @@ Las piezas se añaden cuando resuelven un problema real, no por adelantado:
 
 ### `CLAUDE.md`
 
-Contexto del proyecto, reglas de arquitectura y de git. Ver [CLAUDE.md](../CLAUDE.md).
+Contexto del proyecto, comandos de desarrollo, reglas de arquitectura y de git. Ver [CLAUDE.md](../CLAUDE.md).
 
 ### Permisos
 
 Definidos en [.claude/settings.json](../.claude/settings.json):
 
-- **Permitido sin preguntar:** comandos de git de consulta y de trabajo local (`status`, `log`, `diff`, `switch`, `add`, `commit`…) y consultas de `gh` (`pr view`, `pr list`…).
-- **Siempre pregunta:** todo lo que sale del equipo o es difícil de deshacer (`git push`, `gh pr create`, `gh pr merge`, `git reset --hard`, `git clean`).
+- **Permitido sin preguntar:** comandos de git de consulta y de trabajo local (`status`, `log`, `diff`, `switch`, `add`, `commit`…), consultas de `gh` (`pr view`, `pr list`…) y las herramientas de verificación del proyecto (`npm run …`, `npm test`, `npx expo lint`, `npx tsc`, `npx jest`, `npx prettier`, `npx eslint`).
+- **Siempre pregunta:** todo lo que sale del equipo o es difícil de deshacer (`git push`, `gh pr create`, `gh pr merge`, `git reset --hard`, `git clean`) y los cambios de dependencias (`npm install`, `npm uninstall`, `npx expo install`), porque ejecutan scripts de paquetes de terceros.
 - **Prohibido:** leer ficheros `.env`, que contendrán secretos.
 
 En el mismo fichero, `attribution.commit` vacío hace que los commits no lleven la línea `Co-Authored-By` de Claude. Los PR sí indican que se han generado con Claude Code.
@@ -52,6 +52,24 @@ Complementa la protección de `main` en GitHub: el servidor lo impediría igualm
 **Limitaciones conocidas:** comprueba la rama del directorio de trabajo de la sesión, así que no detecta un `cd otro-repo && git commit`. Si Node no está disponible, el hook falla sin bloquear.
 
 **Requisito:** Node.js en el `PATH`.
+
+### Hook `formatear`
+
+[.claude/hooks/formatear.mjs](../.claude/hooks/formatear.mjs), en el evento `PostToolUse` de las herramientas Edit y Write.
+
+- Formatea con Prettier el fichero editado (`.js`, `.mjs`, `.ts`, `.tsx`, `.json`…), respetando `.prettierignore`.
+- En ficheros de código ejecuta `eslint --fix`. Si quedan errores que no se corrigen solos, se los devuelve a Claude para que los arregle en el momento.
+- Ignora los ficheros de fuera del proyecto y el Markdown, que queda fuera de Prettier para no reformatear las tablas de `docs/`.
+
+No comprueba tipos: `tsc` sobre todo el proyecto tarda demasiado para hacerlo en cada edición. Los tipos se comprueban con `npm run verificar` antes de cada commit; si se olvida a menudo, se pasará a un hook `Stop`.
+
+**Limitaciones conocidas:** tarda unos 3 segundos por edición en Windows, sobre todo por ESLint. Si `node_modules` no está instalado, no hace nada.
+
+**Requisito:** Node.js en el `PATH` y dependencias instaladas (`npm install`).
+
+### Regla de dependencias en ESLint
+
+No es una pieza de Claude Code, pero cumple el mismo principio de imponer lo determinista: [eslint.config.js](../eslint.config.js) impide que `src/domain` importe React, Expo u otras capas, como exige la [arquitectura](arquitectura.md#4-capas-y-estructura-del-código). El hook `formatear` la aplica en cada edición.
 
 ### Skill `/pr`
 
@@ -73,8 +91,8 @@ Complementa la protección de `main` en GitHub: el servidor lo impediría igualm
 | Pieza | Cuándo |
 |-------|--------|
 | MCP de Supabase (limitado a un proyecto, solo lectura en producción) | Al crear el proyecto de Supabase |
-| Hooks de formato y lint tras cada edición | Al crear el proyecto Expo |
-| Comandos de desarrollo en `CLAUDE.md` | Al crear el proyecto Expo |
+| Hook `Stop` que comprueba tipos antes de terminar | Si se olvida ejecutar `npm run verificar` |
+| Evaluar el plugin oficial `expo` para Claude Code (la plantilla lo activa; aquí se quitó) | Cuando haya fricción con las APIs de Expo |
 | Subagente revisor (contra la especificación y los ADR) | Tras las primeras funcionalidades |
 | Subagente de tests | Cuando exista la capa de dominio |
 | CI con GitHub Actions y checks obligatorios en `main` | Cuando haya tests |
@@ -85,4 +103,5 @@ Complementa la protección de `main` en GitHub: el servidor lo impediría igualm
 |-------|--------|
 | MCP oficial de Expo | Requiere un plan de pago de EAS y sus funciones locales solo funcionan con el simulador en macOS |
 | MCP de GitHub | `gh` cubre todo lo necesario desde la terminal |
+| `AGENTS.md` de la plantilla de Expo | Claude Code no lo lee; sus indicaciones útiles están en `CLAUDE.md` |
 | Sistema multiagente (orquestador, planificador…) | Sobredimensionado para un desarrollador y una app de este tamaño |

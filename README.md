@@ -6,7 +6,19 @@ Proyecto de aprendizaje: se desarrolla con Claude Code e irá incorporando agent
 
 ## Estado
 
-Fase 2: arquitectura. Todavía no hay código.
+Fase 1: proyecto Expo creado, con formato, lint, tipos y tests configurados. Todavía no hay funcionalidades ni compilación para el iPhone.
+
+## Desarrollo
+
+Requisitos: Node.js 24 y npm.
+
+```bash
+npm install
+npm start
+npm run verificar
+```
+
+Los comandos completos están en [CLAUDE.md](CLAUDE.md#desarrollo).
 
 ## Documentación
 
